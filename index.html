@@ -1,0 +1,1399 @@
+<!-- Calcolatore Ledwall Ufficiale Seemax – Versione Agenti 1.3.3
+     Doppio tema: Minimal/Pro (nuovo) + Dark/Neon (vecchio stile) -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calcolatore Ledwall Ufficiale Seemax 2.0.0 – Dual Theme</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* RESET */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      /* Default: tema Minimal/Pro */
+      --bg-page: #f3f4f6;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f9fafb;
+      --border-subtle: #e5e7eb;
+      --border-strong: #d1d5db;
+      --text-primary: #111827;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --accent-strong: #1d4ed8;
+      --danger: #ef4444;
+      --success: #16a34a;
+      --warning: #f59e0b;
+
+      --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.12);
+      --shadow-subtle: 0 1px 3px rgba(15, 23, 42, 0.08);
+    }
+
+    /* Override variabili per tema DARK */
+    body.theme-dark {
+      --bg-page: radial-gradient(circle at top, #020617 0, #020617 50%, #020617 100%);
+      --bg-surface: rgba(15, 23, 42, 0.98);
+      --bg-subtle: rgba(15, 23, 42, 0.9);
+      --border-subtle: rgba(30, 64, 175, 0.6);
+      --border-strong: rgba(59, 130, 246, 0.7);
+      --text-primary: #e5e7eb;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent: #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.18);
+      --accent-strong: #2563eb;
+      --danger: #fb7185;
+      --success: #22c55e;
+      --warning: #fbbf24;
+
+      --shadow-soft: 0 20px 55px rgba(0, 0, 0, 0.8);
+      --shadow-subtle: 0 12px 30px rgba(15, 23, 42, 0.8);
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #e5edff 0, #f3f4f6 55%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 16px;
+      position: relative;
+      overflow-x: hidden;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    body.theme-dark {
+      background: radial-gradient(circle at top, #020617 0, #020617 60%);
+    }
+
+    /* PARTICLE BACKGROUND */
+    #particle-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      mix-blend-mode: multiply;
+    }
+    body.theme-dark #particle-bg {
+      opacity: 0.35;
+      mix-blend-mode: screen;
+    }
+
+    /* APP SHELL */
+    .app-frame {
+      width: 100%;
+      max-width: 1000px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      background: var(--bg-surface);
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 20px 22px 22px;
+      transition: background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    body.theme-dark .container {
+      border-color: rgba(37, 99, 235, 0.5);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.9);
+    }
+
+    /* HEADER */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 20%, #93c5fd, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #ffffff;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+    }
+
+    body.theme-dark .brand-logo {
+      background: radial-gradient(circle at 30% 20%, #22d3ee, #1d4ed8);
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.7);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .brand-text span:first-child {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    .brand-text span:last-child {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .heading-area {
+      flex: 1;
+      text-align: center;
+    }
+
+    .heading-area h1 {
+      font-size: 18px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .heading-area p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .meta-area {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      min-width: 170px;
+    }
+
+    .pill {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      border-radius: 999px;
+      padding: 4px 10px;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      background: var(--bg-subtle);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+    }
+
+    body.theme-dark .pill-dot {
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.4);
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+    }
+
+    /* THEME SWITCH */
+    .theme-switch {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 2px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    }
+
+    .theme-btn {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 3px 9px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .theme-btn span.icon {
+      font-size: 12px;
+    }
+
+    .theme-btn.active {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      box-shadow: 0 1px 2px rgba(37, 99, 235, 0.25);
+    }
+
+    body.theme-dark .theme-switch {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(37, 99, 235, 0.6);
+    }
+
+    /* LAYOUT PRINCIPALE */
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, 330px) minmax(0, 1fr);
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      background: var(--bg-subtle);
+      border-radius: 18px;
+      border: 1px solid var(--border-subtle);
+      padding: 14px 16px 16px;
+      box-shadow: var(--shadow-subtle);
+      transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    body.theme-dark .panel {
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), rgba(15, 23, 42, 0.98));
+      border-color: rgba(37, 99, 235, 0.6);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .panel-header {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 12px;
+    }
+
+    .panel-header h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-secondary);
+    }
+
+    .panel-header p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .panel-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .panel-results {
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* CAMPI */
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 13px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background-color: #ffffff;
+      color: var(--text-primary);
+      outline: none;
+      transition: border 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+      appearance: none;
+    }
+
+    input[type="number"]::placeholder {
+      color: var(--text-muted);
+    }
+
+    input[type="number"]:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
+      background-color: #ffffff;
+    }
+
+    body.theme-dark input[type="number"],
+    body.theme-dark select {
+      background-color: rgba(15, 23, 42, 0.95);
+      border-color: rgba(37, 99, 235, 0.7);
+      color: #e5e7eb;
+    }
+    body.theme-dark input[type="number"]::placeholder {
+      color: #6b7280;
+    }
+
+    /* BIFACCIALE SWITCH */
+    .field-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px dashed var(--border-subtle);
+    }
+    body.theme-dark .field-toggle {
+      background: rgba(15, 23, 42, 0.95);
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+
+    #bifacciale {
+      width: 40px;
+      height: 22px;
+      appearance: none;
+      border-radius: 999px;
+      background: #e5e7eb;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.18s ease;
+      flex-shrink: 0;
+      margin: 0;
+    }
+
+    #bifacciale::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #ffffff;
+      top: 2px;
+      left: 2px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.35);
+      transition: transform 0.18s ease;
+    }
+
+    #bifacciale:checked {
+      background: var(--accent-soft);
+    }
+
+    #bifacciale:checked::before {
+      transform: translateX(18px);
+    }
+
+    .toggle-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toggle-text label[for="bifacciale"] {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .toggle-text span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* PROVINCIA ROW + PILL */
+    .provincia-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #provincia {
+      flex: 1 1 auto;
+    }
+
+    .provincia-pill {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 12px;
+      color: #ffffff;
+      background: #16a34a;
+      min-width: 110px;
+      text-align: right;
+      box-shadow: 0 4px 10px rgba(22, 163, 74, 0.5);
+      white-space: nowrap;
+      transition: background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    body.theme-dark .provincia-pill {
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.8);
+    }
+
+    /* NOTICE INSTALLAZIONE */
+    .notice {
+      margin-top: 6px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #eff6ff;
+      color: #1e3a8a;
+      border: 1px solid #bfdbfe;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    body.theme-dark .notice {
+      background: rgba(30, 64, 175, 0.35);
+      color: #e5edff;
+      border-color: rgba(59, 130, 246, 0.7);
+    }
+
+    /* ALERT */
+    #alertContainer {
+      font-size: 13px;
+    }
+
+    .alert {
+      margin-top: 0;
+      padding: 10px 11px;
+      border-radius: 10px;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      line-height: 1.4;
+    }
+
+    .alert a {
+      color: #b91c1c;
+      font-weight: 500;
+      text-decoration: underline;
+    }
+
+    .alert a:hover {
+      text-decoration: none;
+    }
+
+    body.theme-dark .alert {
+      background: rgba(127, 29, 29, 0.9);
+      color: #fecaca;
+      border-color: #b91c1c;
+    }
+    body.theme-dark .alert a {
+      color: #fecaca;
+    }
+
+    /* CARDS RISULTATI */
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 360px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .cards::-webkit-scrollbar {
+      width: 4px;
+    }
+    .cards::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .cards::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.7);
+      border-radius: 999px;
+    }
+
+    .card {
+      position: relative;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 10px 11px 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+      transition:
+        box-shadow 0.14s ease,
+        transform 0.14s ease,
+        border-color 0.14s ease,
+        background 0.14s ease;
+    }
+
+    .card.green { border-left: 3px solid var(--success); }
+    .card.red { border-left: 3px solid var(--danger); }
+    .card.yellow { border-left: 3px solid var(--warning); }
+
+    .card.best {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2), 0 6px 16px rgba(37, 99, 235, 0.18);
+    }
+
+    .card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.16);
+      background: #f9fafb;
+    }
+
+    body.theme-dark .card {
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), rgba(15, 23, 42, 0.95));
+      border-color: rgba(37, 99, 235, 0.7);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9);
+    }
+    body.theme-dark .card.best {
+      box-shadow: 0 0 18px rgba(37, 99, 235, 0.9), 0 24px 50px rgba(15, 23, 42, 1);
+    }
+    body.theme-dark .card:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 26px 60px rgba(0,0,0,1);
+      background: radial-gradient(circle at top, rgba(59, 130, 246, 0.35), rgba(15, 23, 42, 0.98));
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .card-icon {
+      font-size: 22px;
+      margin-right: 6px;
+    }
+
+    .card-title-block {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .card p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .card .cabinet,
+    .card .price {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .card .bifacciale-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--danger);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      border-bottom: 1px dotted var(--border-strong);
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 260px;
+      background-color: #111827;
+      color: #f9fafb;
+      text-align: left;
+      border-radius: 8px;
+      padding: 8px 9px;
+      position: absolute;
+      z-index: 20;
+      bottom: 130%;
+      left: 0;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      font-size: 11px;
+      border: 1px solid rgba(55, 65, 81, 0.7);
+      box-shadow: 0 10px 20px rgba(17, 24, 39, 0.45);
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* POPUP TECNICO */
+    .card-popup {
+      position: absolute;
+      inset: 6px;
+      background: #111827;
+      color: #f9fafb;
+      padding: 10px 10px 8px;
+      border-radius: 10px;
+      display: block;
+      opacity: 0;
+      transform: translateY(10px);
+      z-index: 30;
+      font-size: 12px;
+      overflow-y: auto;
+      border: 1px solid rgba(75, 85, 99, 0.7);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .card.show-popup .card-popup {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* BOTTONE WHATSAPP */
+    .btn-request {
+      margin-top: 4px;
+      align-self: flex-start;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #111827;
+      color: #f9fafb;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.35);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .btn-request::after {
+      content: "↗";
+      font-size: 11px;
+    }
+
+    .btn-request:hover {
+      transform: translateY(-1px);
+      background: #030712;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.45);
+    }
+
+    .btn-request:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.5);
+    }
+
+    body.theme-dark .btn-request {
+      background: #0f172a;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.9);
+    }
+
+    /* PANEL LAYOUT */
+    .panel-layout {
+      margin-top: 14px;
+    }
+
+    #layoutContainer {
+      margin-top: 4px;
+      font-size: 13px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #layoutContainer h3 {
+      margin-bottom: 4px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    #layoutContainer > div {
+      margin: 0 auto 4px;
+    }
+
+    #layoutContainer > div > div {
+      border-radius: 4px;
+      background: #dbeafe;
+      border: 1px solid #bfdbfe;
+      transition: filter 0.15s ease;
+    }
+
+    body.theme-dark #layoutContainer > div > div {
+      background: rgba(37, 99, 235, 0.8);
+      border-color: rgba(191, 219, 254, 0.4);
+    }
+
+    /* SPLASH */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #111827;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.8s ease;
+    }
+
+    #splash.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #splash-logo {
+      font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: #f9fafb;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    #loading-bar {
+      width: 220px;
+      height: 6px;
+      border-radius: 999px;
+      background: #1f2937;
+      overflow: hidden;
+    }
+
+    #loading-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #4f46e5);
+      transition: width 0.3s ease;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .heading-area {
+        text-align: left;
+      }
+      .meta-area {
+        align-items: flex-start;
+      }
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+      .panel-results {
+        order: 2;
+      }
+      .panel-layout {
+        order: 3;
+      }
+    }
+  </style>
+</head>
+<body class="theme-minimal">
+  <canvas id="particle-bg"></canvas>
+
+  <!-- SPLASH -->
+  <div id="splash">
+    <div id="splash-logo">SEEMAX</div>
+    <div id="loading-bar"><div id="loading-fill"></div></div>
+  </div>
+
+  <div class="app-frame">
+    <div class="container" role="main">
+      <!-- HEADER -->
+      <header class="app-header">
+        <div class="brand-area">
+          <div class="brand-logo">S</div>
+          <div class="brand-text">
+            <span>Seemax Display</span>
+            <span>TESTA CREATIVA</span>
+          </div>
+        </div>
+        <div class="heading-area">
+          <h1>CALCOLATORE LEDWALL</h1>
+          <p>Versione 2.0.0 – Ledwall Quotation</p>
+        </div>
+        <div class="meta-area">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span>Agenti</span>
+          </div>
+          <span class="tag">Creato da: David Failla</span>
+          <div class="theme-switch" aria-label="Selettore tema">
+            <button type="button" class="theme-btn active" data-theme="minimal">
+              <span class="icon">◯</span> Minimal
+            </button>
+            <button type="button" class="theme-btn" data-theme="dark">
+              <span class="icon">◎</span> Dark
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- LAYOUT PRINCIPALE -->
+      <div class="main-grid">
+        <!-- SINISTRA: INPUT -->
+        <section class="panel panel-inputs">
+          <div class="panel-header">
+            <h2>Parametri impianto</h2>
+            <p>Inserisci dimensioni, tipologia di installazione e provincia.</p>
+          </div>
+
+          <!-- Dimensioni + Bifacciale -->
+          <div class="field-grid" aria-label="Dimensioni">
+            <div class="field">
+              <label for="base" class="field-label">Base (cm)</label>
+              <input type="number" id="base" placeholder="Es. 200" min="1" step="1" inputmode="numeric" />
+            </div>
+            <div class="field">
+              <label for="altezza" class="field-label">Altezza (cm)</label>
+              <input type="number" id="altezza" placeholder="Es. 200" min="1" step="1" inputmode="numeric" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-toggle">
+              <input type="checkbox" id="bifacciale" />
+              <div class="toggle-text">
+                <label for="bifacciale">Bifacciale</label>
+                <span>Raddoppia i cabinet per la vista fronte/retro.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Installazione -->
+          <div class="field" aria-label="Installazione">
+            <label for="installazione" class="field-label">Installazione</label>
+            <select id="installazione">
+              <option value="personalizza" selected>Da personalizzare</option>
+              <option value="parete">A parete</option>
+              <option value="bandiera">A bandiera</option>
+              <option value="palo">Su Palo</option>
+              <option value="vetrina">A vetrina</option>
+            </select>
+          </div>
+
+          <!-- Provincia -->
+          <div class="field" aria-label="Provincia installazione">
+            <label for="provincia" class="field-label">Provincia installazione</label>
+            <div class="provincia-row">
+              <select id="provincia">
+                <option value="Catania" selected>Napoli (NA)</option>
+              </select>
+              <div id="provinciaPill" class="provincia-pill">+€ 0</div>
+            </div>
+          </div>
+
+          <div id="installNotice" class="notice" style="display:none;"></div>
+        </section>
+
+        <!-- DESTRA: RISULTATI -->
+        <section class="panel panel-results">
+          <div class="panel-header">
+            <h2>Soluzioni consigliate</h2>
+            <p>Modelli, cabinet e prezzi si aggiornano in tempo reale.</p>
+          </div>
+
+          <div id="alertContainer"></div>
+          <div class="cards" id="cardsContainer" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <!-- LAYOUT MODULI -->
+      <section class="panel panel-layout">
+        <div class="panel-header">
+          <h2>Schema moduli</h2>
+          <p>Visualizzazione semplificata dei cabinet necessari.</p>
+        </div>
+        <div id="layoutContainer"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // === PARTICLE BACKGROUND ===
+    var canvas = document.getElementById('particle-bg');
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+    function resizeCanvas(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+    for(var i=0;i<80;i++){
+      particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*2+1,
+        dx:(Math.random()-0.5)/2,
+        dy:(Math.random()-0.5)/2
+      });
+    }
+    function drawParticles(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(function(p){
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle='rgba(0,198,255,0.3)';
+        ctx.fill();
+        p.x+=p.dx; p.y+=p.dy;
+        if(p.x<0||p.x>canvas.width)p.dx*=-1;
+        if(p.y<0||p.y>canvas.height)p.dy*=-1;
+      });
+      requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    // === SPLASH SCREEN ===
+    var splash = document.getElementById('splash');
+    var fill = document.getElementById('loading-fill');
+    var width = 0;
+    var interval = setInterval(function(){
+      width += 2;
+      fill.style.width = width + '%';
+      if(width >= 100){
+        clearInterval(interval);
+        setTimeout(function(){ splash.classList.add('hidden'); },300);
+      }
+    },30);
+
+    // === MODEL LISTINO (cabinet cm e prezzo per cabinet) ===
+    var ledwalls = [
+      { nome: "P1.9", cabX: 50, cabY: 100, prezzo: 1700, info: "Ledwall Display P1.9 | Misura Cabinet: 0.50x1.00 | Qualità Elevata da Medie e Lunghe Distanze. Ottimo a Distanze Ravvicinate. | Utilizzabile SOLO per Installazioni Indoor.", icon: "🖥️" },
+      { nome: "P2.5", cabX: 64, cabY: 64, prezzo: 1350, info: "Ledwall Display P2.5 | Misura Cabinet: 0.64x0.64 | Qualità Eccellente da Medie e Lunghe Distanze. Buono a Distanze Ravvicinate. | Utilizzabile per Installazioni Indoor e Outdoor. | Adatto per Installazioni su Vetrina o Stile TOTEM.", icon: "🖥️" },
+      { nome: "P3", cabX: 57, cabY: 57, prezzo: 750, info: "Ledwall Display P3 | Misura Cabinet: 0.57x0.57 | Qualità Eccellente da Medie e Lunghe Distanze. | Utilizzabile per Installazioni Indoor e Outdoor. | Adatto per Installazioni su Parete e a Bandiera.", icon: "🖥️" },
+      { nome: "P3.91", cabX: 50, cabY: 100, prezzo: 900, info: "Ledwall Display P3.91 | Misura Cabinet: 0.50x1.00 | Qualità Ottima da Medie e Lunghe Distanze. | Utilizzabile per Installazioni Indoor e Outdoor. | Adatto per Installazioni su Parete e a Bandiera.", icon: "🖥️" },
+      { nome: "P4", cabX: 96, cabY: 96, prezzo: 1500, info: "Ledwall Display P4 | Misura Cabinet: 0.96x0.96 | Qualità Buona da Medie e Lunghe Distanze. | Utilizzabile prettamente per Installazioni Outdoor. | Adatto per Installazioni su Parete e a Bandiera.", icon: "🖥️" }
+    ];
+
+    // === INSTALLAZIONE COSTI (€/ soglie m²) ===
+    var INSTALL_COSTS = [
+      { th:1.5,  parete:1000,  bandiera:1000,  palo:1000,  vetrina:800 },
+      { th:2.0,  parete:1300,  bandiera:1200,  palo:1200,  vetrina:1000 },
+      { th:2.75, parete:1360,  bandiera:1240,  palo:1240,  vetrina:1040 },
+      { th:3.0,  parete:1400,  bandiera:1360,  palo:1360,  vetrina:1100 },
+      { th:4.0,  parete:1700,  bandiera:1500,  palo:1500,  vetrina:1200 },
+      { th:5.0,  parete:2000, bandiera:1800,  palo:1800,  vetrina:1400 }
+    ];
+    function installCost(areaMq, tipo){
+      if(tipo==='personalizza') return 0;
+      var rec = INSTALL_COSTS.find(function(r){ return areaMq <= r.th; });
+      if(!rec) rec = INSTALL_COSTS[INSTALL_COSTS.length-1];
+      switch(tipo){
+        case 'parete':   return rec.parete;
+        case 'bandiera': return rec.bandiera;
+        case 'palo':     return rec.palo;
+        case 'vetrina':  return rec.vetrina;
+        default: return 0;
+      }
+    }
+
+    // === PROVINCIA (km dalla sede di Napoli, capoluoghi in linea d'aria)
+    var PROVINCE_KM = { Napoli:0, };
+    var COSTO_KM = 2.0; // € per km
+
+    // === ELEMENTI UI ===
+    var baseInput = document.getElementById('base');
+    var altezzaInput = document.getElementById('altezza');
+    var bifaccialeInput = document.getElementById('bifacciale');
+    var installazioneSelect = document.getElementById('installazione');
+    var installNotice = document.getElementById('installNotice');
+    var cardsContainer = document.getElementById('cardsContainer');
+    var alertContainer = document.getElementById('alertContainer');
+    var layoutContainer = document.getElementById('layoutContainer');
+    var whatsappNumber = '393294397445';
+    var provinciaSelect = document.getElementById('provincia');
+    var provinciaPill = document.getElementById('provinciaPill');
+
+    var currentPopup = null;
+
+    function animateValue(element, start, end, duration) {
+      var startTimestamp = null;
+      var step = function(timestamp) {
+        if (!startTimestamp) startTimestamp = timestamp;
+        var progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        element.textContent = Math.floor(progress * (end - start) + start).toLocaleString('it-IT');
+        if (progress < 1) window.requestAnimationFrame(step);
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    // Aggiorna pill della provincia con colore verde→rosso in base al costo
+    function setProvinciaPill(km){
+      var euro = km * COSTO_KM;
+      var maxEuro = PROVINCE_KM['Trapani'] * COSTO_KM;
+      var ratio = Math.min(1, euro / maxEuro);
+      var hue = 120 - (120 * ratio);
+      provinciaPill.style.backgroundColor = 'hsl(' + hue + ', 85%, 45%)';
+      provinciaPill.textContent = '+€ ' + Math.round(euro).toLocaleString('it-IT');
+      provinciaPill.title = 'Sovrapprezzo trasferta (' + km + ' km × € ' + COSTO_KM.toFixed(2) + '/km)';
+    }
+
+    function aggiornaLayout(models, rotatedMatchFlag) {
+      layoutContainer.innerHTML = '';
+      if (Array.isArray(models) && models.length > 1) {
+          var p19 = models.find(function(m){ return m.nome === 'P1.9'; });
+          var p391 = models.find(function(m){ return m.nome === 'P3.91'; });
+          if (p19 && p391 && models.length === 2) {
+              var title = 'Layout suggerito per P1.9 / P3.91';
+              var h = document.createElement('h3'); h.textContent = title; layoutContainer.appendChild(h);
+              generaLayout(p19, rotatedMatchFlag);
+          } else {
+              models.forEach(function(model){
+                var h2 = document.createElement('h3');
+                h2.textContent = 'Layout suggerito per ' + model.nome;
+                layoutContainer.appendChild(h2);
+                generaLayout(model, rotatedMatchFlag);
+              });
+          }
+      } else {
+          var modelSingle = Array.isArray(models) ? models[0] : models;
+          var h3 = document.createElement('h3');
+          h3.textContent = 'Layout suggerito per ' + modelSingle.nome;
+          layoutContainer.appendChild(h3);
+          generaLayout(modelSingle, rotatedMatchFlag);
+      }
+      if (rotatedMatchFlag) {
+        var warning = document.createElement('div');
+        warning.className = 'alert';
+        warning.innerHTML = '⚠️ È possibile ruotare alcuni cabinet verticali in orientamento orizzontale per ottenere questa misura, ma non è consigliato.';
+        layoutContainer.appendChild(warning);
+      }
+    }
+
+    function generaLayout(model, rotatedMatchFlag) {
+      var bifacciale = bifaccialeInput.checked;
+      var layout = document.createElement('div');
+      layout.style.display = 'grid';
+      layout.style.gridGap = '3px';
+      layout.style.justifyContent = 'center';
+      var isRectangle = model.cabX === 50 && model.cabY === 100;
+      var blockWidth = isRectangle && rotatedMatchFlag ? 2*30 : 30;
+      var blockHeight = isRectangle && rotatedMatchFlag ? 30 : (isRectangle ? 2*30 : 30);
+      var base = parseFloat(baseInput.value); 
+      var altezza = parseFloat(altezzaInput.value);
+      var cols = rotatedMatchFlag && isRectangle ? Math.ceil(base / model.cabY) : Math.ceil(base / model.cabX);
+      var rows = rotatedMatchFlag && isRectangle ? Math.ceil(altezza / model.cabX) : Math.ceil(altezza / model.cabY);
+      cols = Math.min(cols,25); rows = Math.min(rows,25);
+      layout.style.gridTemplateColumns = 'repeat(' + cols + ', ' + blockWidth + 'px)';
+      layout.style.gridTemplateRows = 'repeat(' + rows + ', ' + blockHeight + 'px)';
+      for (var r = 0; r < rows; r++) {
+          for (var c = 0; c < cols; c++) {
+              var cell = document.createElement('div');
+              cell.style.width = blockWidth + 'px';
+              cell.style.height = blockHeight + 'px';
+              cell.style.borderRadius = '4px';
+              cell.style.margin = '1px';
+              cell.style.backgroundColor = bifacciale ? '#fecaca' : '#bfdbfe';
+              if(bifacciale) cell.style.border = '1px solid #fca5a5';
+              layout.appendChild(cell);
+          }
+      }
+      layoutContainer.appendChild(layout);
+    }
+
+    function aggiornaCards() {
+      var base = parseFloat(baseInput.value);
+      var altezza = parseFloat(altezzaInput.value);
+      var bifacciale = bifaccialeInput.checked;
+      var tipoInstall = installazioneSelect.value;
+
+      cardsContainer.innerHTML = '';
+      alertContainer.innerHTML = '';
+      layoutContainer.innerHTML = '';
+      installNotice.style.display = 'none';
+
+      if (tipoInstall === 'personalizza') {
+        installNotice.style.display = 'block';
+        installNotice.textContent = 'Per realizzare strutture imponenti ad altezze importanti, o altri tipi di installazione, è consigliato confrontarsi con un responsabile Seemax';
+      }
+
+      if(!base || !altezza || base <= 0 || altezza <= 0) {
+        setProvinciaPill(PROVINCE_KM[provinciaSelect.value] || 0);
+        return;
+      }
+
+      var kmProvincia = PROVINCE_KM[provinciaSelect.value] || 0;
+      var costoTrasfertaProvincia = kmProvincia * COSTO_KM;
+      setProvinciaPill(kmProvincia);
+
+      var results = ledwalls.map(function(model) {
+        var isRectangle = model.cabX === 50 && model.cabY === 100;
+        var perfectMatch = false;
+        var rotatedMatch = false;
+        if(isRectangle){
+          perfectMatch = (base % model.cabX === 0 && altezza % model.cabY === 0);
+          rotatedMatch = (!perfectMatch && (base % model.cabY === 0 && altezza % model.cabX === 0));
+        } else {
+          perfectMatch = (base % model.cabX === 0 && altezza % model.cabY === 0);
+          rotatedMatch = false;
+        }
+
+        var nearestCols = Math.round(base / model.cabX);
+        var nearestRows = Math.round(altezza / model.cabY);
+        var nearestBase = nearestCols * model.cabX;
+        var nearestAltezza = nearestRows * model.cabY;
+
+        var colsNeeded = rotatedMatch ? Math.ceil(base / model.cabY) : Math.ceil(base / model.cabX);
+        var rowsNeeded = rotatedMatch ? Math.ceil(altezza / model.cabX) : Math.ceil(altezza / model.cabY);
+        var totalCab = colsNeeded * rowsNeeded;
+        var prezzoTotale = totalCab * model.prezzo;
+        if(bifacciale){ totalCab *= 2; prezzoTotale *= 2; }
+
+        var displayWidth = colsNeeded*(rotatedMatch?model.cabY:model.cabX);
+        var displayHeight = rowsNeeded*(rotatedMatch?model.cabX:model.cabY);
+
+        var areaMq = (displayWidth/100) * (displayHeight/100);
+        var costoInst = installCost(areaMq, tipoInstall);
+        var prezzoTotaleConInstall = prezzoTotale + costoInst;
+        var prezzoTotaleFinale = prezzoTotaleConInstall + costoTrasfertaProvincia;
+
+        var diffX = Math.abs(base - displayWidth);
+        var diffY = Math.abs(altezza - displayHeight);
+        var diff = diffX + diffY;
+
+        return {
+          nome: model.nome,
+          cabX: model.cabX,
+          cabY: model.cabY,
+          prezzo: model.prezzo,
+          info: model.info,
+          icon: model.icon,
+          colsNeeded: colsNeeded,
+          rowsNeeded: rowsNeeded,
+          totalCab: totalCab,
+          prezzoTotale: prezzoTotale,
+          prezzoTotaleConInstall: prezzoTotaleConInstall,
+          prezzoTotaleFinale: prezzoTotaleFinale,
+          diff: diff,
+          perfectMatch: perfectMatch,
+          rotatedMatch: rotatedMatch,
+          displayWidth: displayWidth,
+          displayHeight: displayHeight,
+          nearestBase: nearestBase,
+          nearestAltezza: nearestAltezza,
+          bifacciale: bifacciale
+        };
+      });
+
+      var perfectMatches = results.filter(function(r){ return r.perfectMatch; });
+      var rotatedMatches = results.filter(function(r){ return r.rotatedMatch; });
+
+      results.sort(function(a,b) {
+        if(a.perfectMatch && !b.perfectMatch) return -1;
+        if(!a.perfectMatch && b.perfectMatch) return 1;
+        if(a.rotatedMatch && !b.rotatedMatch) return -1;
+        if(!a.rotatedMatch && b.rotatedMatch) return 1;
+        return a.prezzoTotaleFinale - b.prezzoTotaleFinale;
+      });
+
+      var bestPriceModel = results.reduce(function(prev, curr){
+        return (curr.prezzoTotaleFinale < prev.prezzoTotaleFinale) ? curr : prev;
+      }, results[0]);
+
+      results.forEach(function(model) {
+        var wrapper = document.createElement('div');
+        wrapper.style.display = 'flex';
+        wrapper.style.flexDirection = 'column';
+        wrapper.style.alignItems = 'stretch';
+
+        var card = document.createElement('div');
+        if(model.perfectMatch) card.className = 'card green';
+        else if(model.rotatedMatch) card.className = 'card yellow';
+        else card.className = 'card red';
+        if(model.nome === bestPriceModel.nome) card.classList.add('best');
+
+        var popup = document.createElement('div');
+        popup.className = 'card-popup';
+        popup.innerHTML = '<strong>' + model.nome + '</strong><br>' + model.info;
+        card.appendChild(popup);
+
+        var installLabelMap = {
+          parete:'A parete', bandiera:'A bandiera', palo:'Su Palo', vetrina:'A vetrina', personalizza:'Da personalizzare'
+        };
+        var installLabel = installLabelMap[tipoInstall] || '';
+
+        var whatsappText;
+        if(model.perfectMatch || model.rotatedMatch){
+          whatsappText =
+            'Ti contatto dal calcolatore per il modello ' + model.nome +
+            ' con misura ' + base + ' x ' + altezza +
+            (model.bifacciale ? ' (Bifacciale)' : '') +
+            '. Installazione: ' + installLabel +
+            '. Voglio avere altre informazioni.';
+        } else {
+          whatsappText =
+            'Ti contatto dal calcolatore per un preventivo personalizzato con modello ' + model.nome +
+            ' e misura ' + base + ' x ' + altezza +
+            (model.bifacciale ? ' (Bifacciale)' : '') +
+            '. Installazione: ' + installLabel + '.';
+        }
+        var whatsappLink =
+          'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(whatsappText);
+
+        var idSafe = model.nome.replace(/[^\w-]/g,'_');
+
+        card.innerHTML += ''
+          + '<div class="card-header-row">'
+          + '  <div class="card-title-block">'
+          + '    <div class="card-icon">' + model.icon + '</div>'
+          + '    <h2>' + model.nome + '</h2>'
+          + '  </div>'
+          + '</div>'
+          + '<p class="tooltip">Dimensione cabinet: ' + model.cabX + ' x ' + model.cabY + ' cm'
+          + '  <span class="tooltiptext">' + model.info + '</span>'
+          + '</p>'
+          + (model.perfectMatch || model.rotatedMatch
+            ? '<p class="cabinet">Numero cabinet: <span id="cab' + idSafe + '">0</span></p>'
+              + '<p class="price">Prezzo totale: <span id="price' + idSafe + '">0</span>€</p>'
+              + (model.bifacciale ? '<p class="bifacciale-label">Bifacciale</p>' : '')
+            : '<p>Misura più vicina: ' + model.nearestBase + ' x ' + model.nearestAltezza + ' cm</p>'
+          );
+
+        var btnRequest = document.createElement('button');
+        btnRequest.className = 'btn-request';
+        btnRequest.textContent = 'Richiedi preventivo';
+        btnRequest.onclick = function() { window.open(whatsappLink, '_blank'); };
+
+        card.addEventListener('click', function(e) {
+          if(e.target.classList && e.target.classList.contains('btn-request')) return;
+          if (currentPopup && currentPopup !== card){ currentPopup.classList.remove('show-popup'); }
+          if(card.classList.contains('show-popup')){ card.classList.remove('show-popup'); currentPopup = null; }
+          else { card.classList.add('show-popup'); currentPopup = card; }
+        });
+
+        wrapper.appendChild(card);
+        wrapper.appendChild(btnRequest);
+        cardsContainer.appendChild(wrapper);
+
+        if(model.perfectMatch || model.rotatedMatch){
+          setTimeout(function(){ card.classList.add('show'); },50);
+          animateValue(document.getElementById('cab' + idSafe), 0, model.totalCab, 1200);
+          animateValue(document.getElementById('price' + idSafe), 0, Math.round(model.prezzoTotaleFinale), 1200);
+        }
+      });
+
+      if(rotatedMatches.length > 0){
+        alertContainer.innerHTML = '<div class="alert">⚠️ È possibile ruotare alcuni cabinet verticali in orientamento orizzontale per ottenere questa misura, ma non è consigliato.</div>';
+        aggiornaLayout(rotatedMatches, true);
+      } else if(perfectMatches.length === 0){
+        var best = results[0];
+        var installLabelMap2 = {
+          parete:'A parete', bandiera:'A bandiera', palo:'Su Palo', vetrina:'A vetrina', personalizza:'Da personalizzare'
+        };
+        var installLabel2 = installLabelMap2[tipoInstall] || '';
+
+        var msg =
+          'Ti contatto dal calcolatore per un preventivo personalizzato con misura ' +
+          base + ' x ' + altezza +
+          (bifacciale ? ' (Bifacciale)' : '') +
+          '. Installazione: ' + installLabel2 + '.';
+
+        var link =
+          'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(msg);
+
+        alertContainer.innerHTML =
+          '<div class="alert">Per questa misura ti consigliamo un <strong>' + best.nome +
+          '</strong> con misure realizzabili ' + best.displayWidth + ' x ' + best.displayHeight +
+          ' cm.<br>Puoi richiedere un preventivo personalizzato cliccando ' +
+          '<a href="' + link + '" target="_blank">qui</a>.</div>';
+
+        if(best.nome === 'P1.9' || best.nome === 'P3.91') {
+          aggiornaLayout([{nome:'P1.9',cabX:best.cabX,cabY:best.cabY}, {nome:'P3.91',cabX:best.cabX,cabY:best.cabY}], false);
+        } else {
+          aggiornaLayout([best], false);
+        }
+      } else {
+        if(perfectMatches.length===2 &&
+           perfectMatches.some(function(m){return m.nome==='P1.9';}) &&
+           perfectMatches.some(function(m){return m.nome==='P3.91';})){
+          aggiornaLayout(perfectMatches.filter(function(m){return m.nome==='P1.9' || m.nome==='P3.91';}), false);
+        } else {
+          aggiornaLayout(perfectMatches, false);
+        }
+      }
+    }
+
+    // Listeners (incluso select provincia)
+    baseInput.addEventListener('input', aggiornaCards);
+    altezzaInput.addEventListener('input', aggiornaCards);
+    bifaccialeInput.addEventListener('change', aggiornaCards);
+    installazioneSelect.addEventListener('change', aggiornaCards);
+    provinciaSelect.addEventListener('change', aggiornaCards);
+
+    // Effetto luce sui cabinet (limitazione performance)
+    setInterval(function() {
+      var cells = document.querySelectorAll('#layoutContainer > div > div');
+      var N = Math.min(cells.length, 600);
+      for(var i2=0;i2<N;i2++){
+        var cell = cells[i2];
+        var pulse = Math.sin(Date.now() / 400 + i2) * 0.4 + 0.6;
+        cell.style.filter = 'brightness(' + pulse + ')';
+      }
+    }, 80);
+
+    // THEME SWITCH LOGIC
+    var themeButtons = document.querySelectorAll('.theme-btn');
+    themeButtons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var theme = btn.getAttribute('data-theme');
+        document.body.classList.remove('theme-minimal', 'theme-dark');
+        if(theme === 'dark') {
+          document.body.classList.add('theme-dark');
+        } else {
+          document.body.classList.add('theme-minimal');
+        }
+        themeButtons.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
