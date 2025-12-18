@@ -1,16 +1,15 @@
 <!-- Calcolatore Ledwall Ufficiale Seemax – Versione Agenti 1.3.3
      Doppio tema: Minimal/Pro (nuovo) + Dark/Neon (vecchio stile) -->
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calcolatore Ledwall Ufficiale Seemax 2.0.0 – Dual Theme</title>
-
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calcolatore Ledwall Ufficiale Seemax 2.0.0 – Dual Theme</title>
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
     /* RESET */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -686,11 +685,13 @@
       overflow-y: auto;
       border: 1px solid rgba(75, 85, 99, 0.7);
       transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
     }
 
     .card.show-popup .card-popup {
       opacity: 1;
       transform: translateY(0);
+      pointer-events: auto;
     }
 
     /* BOTTONE WHATSAPP */
@@ -837,130 +838,182 @@
         order: 3;
       }
     }
+  
+    /* UNIFICA CABINET (solo P3.91) */
+    .btn-unifica{
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      background: #ef4444;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      position: relative;
+      z-index: 50;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 16px rgba(239, 68, 68, 0.18);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .btn-annulla-unifica{
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      background: #111827;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      opacity: 0.92;
+      box-shadow: 0 8px 16px rgba(17, 24, 39, 0.18);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+    }
+    .btn-annulla-unifica:hover{ transform: translateY(-1px); opacity: 1; box-shadow: 0 10px 18px rgba(17, 24, 39, 0.22); }
+
+
+    .btn-unifica:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(239, 68, 68, 0.22);
+    }
+    .btn-unifica:active{
+      transform: translateY(0);
+      opacity: 0.95;
+    }
+    .card.unified{
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.28), 0 8px 20px rgba(56, 189, 248, 0.18);
+    }
+
+    /* Modalità UNIFICA: metti in secondo piano le altre card */
+    .unify-mode .card{
+      opacity: 0.40;
+      filter: saturate(0.85);
+      transition: opacity 0.18s ease, filter 0.18s ease;
+    }
+    .unify-mode .card.unified{
+      opacity: 1;
+      filter: none;
+    }
+
   </style>
 </head>
 <body class="theme-minimal">
-  <canvas id="particle-bg"></canvas>
-
-  <!-- SPLASH -->
-  <div id="splash">
-    <div id="splash-logo">SEEMAX</div>
-    <div id="loading-bar"><div id="loading-fill"></div></div>
-  </div>
-
-  <div class="app-frame">
-    <div class="container" role="main">
-      <!-- HEADER -->
-      <header class="app-header">
-        <div class="brand-area">
-          <div class="brand-logo">S</div>
-          <div class="brand-text">
-            <span>Seemax Display</span>
-            <span>TESTA CREATIVA</span>
-          </div>
-        </div>
-        <div class="heading-area">
-          <h1>CALCOLATORE LEDWALL</h1>
-          <p>Versione 2.0.0 – Ledwall Quotation</p>
-        </div>
-        <div class="meta-area">
-          <div class="pill">
-            <span class="pill-dot"></span>
-            <span>Agenti</span>
-          </div>
-          <span class="tag">Creato da: David Failla</span>
-          <div class="theme-switch" aria-label="Selettore tema">
-            <button type="button" class="theme-btn active" data-theme="minimal">
-              <span class="icon">◯</span> Minimal
+<canvas id="particle-bg"></canvas>
+<!-- SPLASH -->
+<div id="splash">
+<div id="splash-logo">SEEMAX</div>
+<div id="loading-bar"><div id="loading-fill"></div></div>
+</div>
+<div class="app-frame">
+<div class="container" role="main">
+<!-- HEADER -->
+<header class="app-header">
+<div class="brand-area">
+<div class="brand-logo">S</div>
+<div class="brand-text">
+<span>Seemax Display</span>
+<span>TESTA CREATIVA</span>
+</div>
+</div>
+<div class="heading-area">
+<h1>CALCOLATORE LEDWALL</h1>
+<p>Versione 2.0.0 – Ledwall Quotation</p>
+</div>
+<div class="meta-area">
+<div class="pill">
+<span class="pill-dot"></span>
+<span>Agenti</span>
+</div>
+<span class="tag">Creato da: David Failla</span>
+<div aria-label="Selettore tema" class="theme-switch">
+<button class="theme-btn active" data-theme="minimal" type="button">
+<span class="icon">◯</span> Minimal
             </button>
-            <button type="button" class="theme-btn" data-theme="dark">
-              <span class="icon">◎</span> Dark
+<button class="theme-btn" data-theme="dark" type="button">
+<span class="icon">◎</span> Dark
             </button>
-          </div>
-        </div>
-      </header>
-
-      <!-- LAYOUT PRINCIPALE -->
-      <div class="main-grid">
-        <!-- SINISTRA: INPUT -->
-        <section class="panel panel-inputs">
-          <div class="panel-header">
-            <h2>Parametri impianto</h2>
-            <p>Inserisci dimensioni, tipologia di installazione e provincia.</p>
-          </div>
-
-          <!-- Dimensioni + Bifacciale -->
-          <div class="field-grid" aria-label="Dimensioni">
-            <div class="field">
-              <label for="base" class="field-label">Base (cm)</label>
-              <input type="number" id="base" placeholder="Es. 200" min="1" step="1" inputmode="numeric" />
-            </div>
-            <div class="field">
-              <label for="altezza" class="field-label">Altezza (cm)</label>
-              <input type="number" id="altezza" placeholder="Es. 200" min="1" step="1" inputmode="numeric" />
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="field-toggle">
-              <input type="checkbox" id="bifacciale" />
-              <div class="toggle-text">
-                <label for="bifacciale">Bifacciale</label>
-                <span>Raddoppia i cabinet per la vista fronte/retro.</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Installazione -->
-          <div class="field" aria-label="Installazione">
-            <label for="installazione" class="field-label">Installazione</label>
-            <select id="installazione">
-              <option value="personalizza" selected>Da personalizzare</option>
-              <option value="parete">A parete</option>
-              <option value="bandiera">A bandiera</option>
-              <option value="palo">Su Palo</option>
-              <option value="vetrina">A vetrina</option>
-            </select>
-          </div>
-
-          <!-- Provincia -->
-          <div class="field" aria-label="Provincia installazione">
-            <label for="provincia" class="field-label">Provincia installazione</label>
-            <div class="provincia-row">
-              <select id="provincia">
-                <option value="Catania" selected>Napoli (NA)</option>
-              </select>
-              <div id="provinciaPill" class="provincia-pill">+€ 0</div>
-            </div>
-          </div>
-
-          <div id="installNotice" class="notice" style="display:none;"></div>
-        </section>
-
-        <!-- DESTRA: RISULTATI -->
-        <section class="panel panel-results">
-          <div class="panel-header">
-            <h2>Soluzioni consigliate</h2>
-            <p>Modelli, cabinet e prezzi si aggiornano in tempo reale.</p>
-          </div>
-
-          <div id="alertContainer"></div>
-          <div class="cards" id="cardsContainer" aria-live="polite"></div>
-        </section>
-      </div>
-
-      <!-- LAYOUT MODULI -->
-      <section class="panel panel-layout">
-        <div class="panel-header">
-          <h2>Schema moduli</h2>
-          <p>Visualizzazione semplificata dei cabinet necessari.</p>
-        </div>
-        <div id="layoutContainer"></div>
-      </section>
-    </div>
-  </div>
-
-  <script>
+</div>
+</div>
+</header>
+<!-- LAYOUT PRINCIPALE -->
+<div class="main-grid">
+<!-- SINISTRA: INPUT -->
+<section class="panel panel-inputs">
+<div class="panel-header">
+<h2>Parametri impianto</h2>
+<p>Inserisci dimensioni, tipologia di installazione e provincia.</p>
+</div>
+<!-- Dimensioni + Bifacciale -->
+<div aria-label="Dimensioni" class="field-grid">
+<div class="field">
+<label class="field-label" for="base">Base (cm)</label>
+<input id="base" inputmode="numeric" min="1" placeholder="Es. 200" step="1" type="number"/>
+</div>
+<div class="field">
+<label class="field-label" for="altezza">Altezza (cm)</label>
+<input id="altezza" inputmode="numeric" min="1" placeholder="Es. 200" step="1" type="number"/>
+</div>
+</div>
+<div class="field">
+<div class="field-toggle">
+<input id="bifacciale" type="checkbox"/>
+<div class="toggle-text">
+<label for="bifacciale">Bifacciale</label>
+<span>Raddoppia i cabinet per la vista fronte/retro.</span>
+</div>
+</div>
+</div>
+<!-- Installazione -->
+<div aria-label="Installazione" class="field">
+<label class="field-label" for="installazione">Installazione</label>
+<select id="installazione">
+<option selected="" value="personalizza">Da personalizzare</option>
+<option value="parete">A parete</option>
+<option value="bandiera">A bandiera</option>
+<option value="palo">Su Palo</option>
+<option value="vetrina">A vetrina</option>
+</select>
+</div>
+<!-- Provincia -->
+<div aria-label="Provincia installazione" class="field">
+<label class="field-label" for="provincia">Provincia installazione</label>
+<div class="provincia-row">
+<select id="provincia">
+<option selected="" value="Salerno">SALERNO</option>
+<option value="Napoli">NAPOLI</option>
+<option value="Avellino">AVELLINO</option>
+<option value="Caserta">CASERTA</option>
+<option value="Benevento">BENEVENTO</option>
+</select>
+<div class="provincia-pill" id="provinciaPill">+€ 250</div>
+</div>
+</div>
+<div class="notice" id="installNotice" style="display:none;"></div>
+</section>
+<!-- DESTRA: RISULTATI -->
+<section class="panel panel-results">
+<div class="panel-header">
+<h2>Soluzioni consigliate</h2>
+<p>Modelli, cabinet e prezzi si aggiornano in tempo reale.</p>
+</div>
+<div id="alertContainer"></div>
+<div aria-live="polite" class="cards" id="cardsContainer"></div>
+</section>
+</div>
+<!-- LAYOUT MODULI -->
+<section class="panel panel-layout">
+<div class="panel-header">
+<h2>Schema moduli</h2>
+<p>Visualizzazione semplificata dei cabinet necessari.</p>
+</div>
+<div id="layoutContainer"></div>
+</section>
+</div>
+</div>
+<script>
     // === PARTICLE BACKGROUND ===
     var canvas = document.getElementById('particle-bg');
     var ctx = canvas.getContext('2d');
@@ -992,24 +1045,60 @@
     drawParticles();
 
     // === SPLASH SCREEN ===
-    var splash = document.getElementById('splash');
-    var fill = document.getElementById('loading-fill');
-    var width = 0;
-    var interval = setInterval(function(){
-      width += 2;
-      fill.style.width = width + '%';
-      if(width >= 100){
-        clearInterval(interval);
-        setTimeout(function(){ splash.classList.add('hidden'); },300);
-      }
-    },30);
+    (function(){
+      try{
+        const splash = document.getElementById('splash');
+        const fill = document.getElementById('loading-fill');
+        if(!splash) return;
 
-    // === MODEL LISTINO (cabinet cm e prezzo per cabinet) ===
+        let width = 0;
+        let loaded = false;
+        let done = false;
+
+        function setWidth(v){
+          width = Math.max(0, Math.min(100, v));
+          if(fill) fill.style.width = width + '%';
+        }
+
+        function finish(){
+          if(done) return;
+          done = true;
+          setWidth(100);
+          setTimeout(()=>{ try{ splash.classList.add('hidden'); }catch(e){} }, 250);
+        }
+
+        const capBeforeLoad = 92;
+        const interval = setInterval(()=>{
+          if(done){ clearInterval(interval); return; }
+
+          if(!loaded){
+            if(width < capBeforeLoad) setWidth(width + 2);
+          } else {
+            if(width < 100) setWidth(width + 4);
+            if(width >= 100){
+              clearInterval(interval);
+              finish();
+            }
+          }
+        }, 30);
+
+        window.addEventListener('load', ()=>{
+          loaded = true;
+        });
+
+        // Fail-safe: force-complete the bar then hide (so it never stays stuck)
+        setTimeout(()=>{ if(!done){ loaded = true; finish(); } }, 10000);
+      }catch(e){
+        try{ const s=document.getElementById('splash'); if(s) s.classList.add('hidden'); }catch(_ ){}
+      }
+    })();
+// === MODEL LISTINO (cabinet cm e prezzo per cabinet) ===
     var ledwalls = [
       { nome: "P1.9", cabX: 50, cabY: 100, prezzo: 1700, info: "Ledwall Display P1.9 | Misura Cabinet: 0.50x1.00 | Qualità Elevata da Medie e Lunghe Distanze. Ottimo a Distanze Ravvicinate. | Utilizzabile SOLO per Installazioni Indoor.", icon: "🖥️" },
       { nome: "P2.5", cabX: 64, cabY: 64, prezzo: 1350, info: "Ledwall Display P2.5 | Misura Cabinet: 0.64x0.64 | Qualità Eccellente da Medie e Lunghe Distanze. Buono a Distanze Ravvicinate. | Utilizzabile per Installazioni Indoor e Outdoor. | Adatto per Installazioni su Vetrina o Stile TOTEM.", icon: "🖥️" },
       { nome: "P3", cabX: 57, cabY: 57, prezzo: 750, info: "Ledwall Display P3 | Misura Cabinet: 0.57x0.57 | Qualità Eccellente da Medie e Lunghe Distanze. | Utilizzabile per Installazioni Indoor e Outdoor. | Adatto per Installazioni su Parete e a Bandiera.", icon: "🖥️" },
       { nome: "P3.91", cabX: 50, cabY: 100, prezzo: 900, info: "Ledwall Display P3.91 | Misura Cabinet: 0.50x1.00 | Qualità Ottima da Medie e Lunghe Distanze. | Utilizzabile per Installazioni Indoor e Outdoor. | Adatto per Installazioni su Parete e a Bandiera.", icon: "🖥️" },
+      { nome: "P3.91 - 0.50x0.50", cabX: 50, cabY: 50, prezzo: 490, info: "Ledwall Display P3.91 | Misura Cabinet: 0.50x0.50 | Qualità Ottima da Medie e Lunghe Distanze. | Utilizzabile per Installazioni Indoor e Outdoor. | Adatto per Installazioni su Parete e a Bandiera.", icon: "🖥️" },
       { nome: "P4", cabX: 96, cabY: 96, prezzo: 1500, info: "Ledwall Display P4 | Misura Cabinet: 0.96x0.96 | Qualità Buona da Medie e Lunghe Distanze. | Utilizzabile prettamente per Installazioni Outdoor. | Adatto per Installazioni su Parete e a Bandiera.", icon: "🖥️" }
     ];
 
@@ -1035,9 +1124,16 @@
       }
     }
 
-    // === PROVINCIA (km dalla sede di Napoli, capoluoghi in linea d'aria)
-    var PROVINCE_KM = { Napoli:0, };
-    var COSTO_KM = 2.0; // € per km
+    // === PROVINCIA (Campania, riferimento Salerno: costo trasferta fisso per provincia)
+    // Province Campania -> costo trasferta fisso (modificabile per singola provincia)
+    var PROVINCE_TRASFERTA = {
+      "Salerno": 250,
+      "Napoli": 250,
+      "Avellino": 250,
+      "Caserta": 250,
+      "Benevento": 250
+    };
+    var DEFAULT_TRASFERTA = 250;
 
     // === ELEMENTI UI ===
     var baseInput = document.getElementById('base');
@@ -1066,40 +1162,53 @@
     }
 
     // Aggiorna pill della provincia con colore verde→rosso in base al costo
-    function setProvinciaPill(km){
-      var euro = km * COSTO_KM;
-      var maxEuro = PROVINCE_KM['Trapani'] * COSTO_KM;
-      var ratio = Math.min(1, euro / maxEuro);
+    function setProvinciaPill(fee){
+      fee = (typeof fee === 'number' && isFinite(fee)) ? fee : DEFAULT_TRASFERTA;
+      var values = Object.values(PROVINCE_TRASFERTA || {});
+      var maxFee = values.length ? Math.max.apply(null, values) : fee;
+      var ratio = maxFee ? Math.min(1, fee / maxFee) : 0;
       var hue = 120 - (120 * ratio);
       provinciaPill.style.backgroundColor = 'hsl(' + hue + ', 85%, 45%)';
-      provinciaPill.textContent = '+€ ' + Math.round(euro).toLocaleString('it-IT');
-      provinciaPill.title = 'Sovrapprezzo trasferta (' + km + ' km × € ' + COSTO_KM.toFixed(2) + '/km)';
+      provinciaPill.textContent = '+€ ' + Math.round(fee).toLocaleString('it-IT');
+      provinciaPill.title = 'Sovrapprezzo trasferta (fisso per provincia)';
     }
 
     function aggiornaLayout(models, rotatedMatchFlag) {
       layoutContainer.innerHTML = '';
-      if (Array.isArray(models) && models.length > 1) {
-          var p19 = models.find(function(m){ return m.nome === 'P1.9'; });
-          var p391 = models.find(function(m){ return m.nome === 'P3.91'; });
-          if (p19 && p391 && models.length === 2) {
-              var title = 'Layout suggerito per P1.9 / P3.91';
-              var h = document.createElement('h3'); h.textContent = title; layoutContainer.appendChild(h);
-              generaLayout(p19, rotatedMatchFlag);
-          } else {
-              models.forEach(function(model){
-                var h2 = document.createElement('h3');
-                h2.textContent = 'Layout suggerito per ' + model.nome;
-                layoutContainer.appendChild(h2);
-                generaLayout(model, rotatedMatchFlag);
-              });
-          }
-      } else {
-          var modelSingle = Array.isArray(models) ? models[0] : models;
-          var h3 = document.createElement('h3');
-          h3.textContent = 'Layout suggerito per ' + modelSingle.nome;
-          layoutContainer.appendChild(h3);
-          generaLayout(modelSingle, rotatedMatchFlag);
+      if(!models) return;
+
+      // Normalizza input
+      var arr = Array.isArray(models) ? models.slice() : [models];
+
+      // Unifica layout P1.9 / P3.91 SOLO per i cabinet 0.50x1.00
+      var groupRect = arr.filter(function(m){
+        return (m.cabX === 50 && m.cabY === 100) && (m.nome === 'P1.9' || m.nome === 'P3.91');
+      });
+      var others = arr.filter(function(m){ return groupRect.indexOf(m) === -1; });
+
+      if(groupRect.length){
+        var hasP19  = groupRect.some(function(m){ return m.nome === 'P1.9'; });
+        var hasP391 = groupRect.some(function(m){ return m.nome === 'P3.91'; });
+        var titleRect = (hasP19 && hasP391)
+          ? 'Layout suggerito per P1.9 / P3.91'
+          : ('Layout suggerito per ' + groupRect[0].nome);
+
+        var hRect = document.createElement('h3');
+        hRect.textContent = titleRect;
+        layoutContainer.appendChild(hRect);
+
+        var baseModel = groupRect.find(function(m){ return m.nome === 'P1.9'; }) || groupRect[0];
+        generaLayout(baseModel, rotatedMatchFlag);
       }
+
+      // Tutti gli altri modelli (incluso P3.91 - 0.50x0.50) restano separati
+      others.forEach(function(model){
+        var h2 = document.createElement('h3');
+        h2.textContent = 'Layout suggerito per ' + model.nome;
+        layoutContainer.appendChild(h2);
+        generaLayout(model, rotatedMatchFlag);
+      });
+
       if (rotatedMatchFlag) {
         var warning = document.createElement('div');
         warning.className = 'alert';
@@ -1139,11 +1248,62 @@
       layoutContainer.appendChild(layout);
     }
 
+
+    // Layout unificato P3.91: cabinet 0.50x1.00 + 0.50x0.50 (solo quando necessario)
+    function generaLayoutUnificatoP391(plan){
+      var bifacciale = bifaccialeInput.checked;
+
+      var wrap = document.createElement('div');
+      wrap.style.display = 'flex';
+      wrap.style.flexDirection = 'column';
+      wrap.style.alignItems = 'center';
+      wrap.style.gap = '3px';
+
+      function cell(w,h){
+        var d = document.createElement('div');
+        d.style.width = w + 'px';
+        d.style.height = h + 'px';
+        d.style.borderRadius = '4px';
+        d.style.margin = '1px';
+        d.style.backgroundColor = bifacciale ? '#fecaca' : '#bfdbfe';
+        if(bifacciale) d.style.border = '1px solid #fca5a5';
+        return d;
+      }
+
+      // Quadrati (0.50x0.50) in alto
+      for(var r=0; r<plan.squareRows; r++){
+        var row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'center';
+        for(var c=0; c<plan.cols; c++){
+          row.appendChild(cell(30,30));
+        }
+        wrap.appendChild(row);
+      }
+
+      // Rettangoli (0.50x1.00) sotto
+      for(var rr=0; rr<plan.rectRows; rr++){
+        var row2 = document.createElement('div');
+        row2.style.display = 'flex';
+        row2.style.justifyContent = 'center';
+        for(var c2=0; c2<plan.cols; c2++){
+          row2.appendChild(cell(30,60));
+        }
+        wrap.appendChild(row2);
+      }
+
+      layoutContainer.appendChild(wrap);
+    }
+
+
     function aggiornaCards() {
       var base = parseFloat(baseInput.value);
       var altezza = parseFloat(altezzaInput.value);
       var bifacciale = bifaccialeInput.checked;
       var tipoInstall = installazioneSelect.value;
+
+      if(cardsContainer && cardsContainer.classList){ cardsContainer.classList.remove('unify-mode'); }
+
 
       cardsContainer.innerHTML = '';
       alertContainer.innerHTML = '';
@@ -1156,13 +1316,12 @@
       }
 
       if(!base || !altezza || base <= 0 || altezza <= 0) {
-        setProvinciaPill(PROVINCE_KM[provinciaSelect.value] || 0);
+        setProvinciaPill(PROVINCE_TRASFERTA[provinciaSelect.value] != null ? PROVINCE_TRASFERTA[provinciaSelect.value] : DEFAULT_TRASFERTA);
         return;
       }
 
-      var kmProvincia = PROVINCE_KM[provinciaSelect.value] || 0;
-      var costoTrasfertaProvincia = kmProvincia * COSTO_KM;
-      setProvinciaPill(kmProvincia);
+      var costoTrasfertaProvincia = (PROVINCE_TRASFERTA[provinciaSelect.value] != null ? PROVINCE_TRASFERTA[provinciaSelect.value] : DEFAULT_TRASFERTA);
+      setProvinciaPill(costoTrasfertaProvincia);
 
       var results = ledwalls.map(function(model) {
         var isRectangle = model.cabX === 50 && model.cabY === 100;
@@ -1226,6 +1385,54 @@
       var perfectMatches = results.filter(function(r){ return r.perfectMatch; });
       var rotatedMatches = results.filter(function(r){ return r.rotatedMatch; });
 
+       // UNIFICA CABINET (solo P3.91: 0.50x1.00 + 0.50x0.50)
+       var unificaPlan = null;
+       var unificaDisponibile = false;
+       (function(){
+         try{
+           var condMisure = (base % 50 === 0) && (altezza % 100 === 50) && (altezza >= 150);
+           var hasRect = results.some(function(r){ return r.nome === 'P3.91' && r.cabX === 50 && r.cabY === 100; });
+           var hasSquare  = perfectMatches.some(function(r){ return r.nome === 'P3.91 - 0.50x0.50' && r.cabX === 50 && r.cabY === 50; });
+
+           if(condMisure && hasRect && hasSquare){
+             var rectModel = results.find(function(r){ return r.nome === 'P3.91' && r.cabX === 50 && r.cabY === 100; });
+             var sqModel   = results.find(function(r){ return r.nome === 'P3.91 - 0.50x0.50' && r.cabX === 50 && r.cabY === 50; });
+             if(rectModel && sqModel){
+               var colsU = base / 50;
+               var rectRowsU = (altezza - 50) / 100;
+               var rectCabU = colsU * rectRowsU;
+               var sqCabU   = colsU * 1;
+
+               var prezzoSoloDisplay = (rectCabU * rectModel.prezzo) + (sqCabU * sqModel.prezzo);
+               var rectCabDisp = rectCabU;
+               var sqCabDisp = sqCabU;
+               if(bifacciale){ prezzoSoloDisplay *= 2; rectCabDisp *= 2; sqCabDisp *= 2; }
+
+               var areaMqU = (base/100) * (altezza/100);
+               var costoInstU = installCost(areaMqU, tipoInstall);
+               var prezzoFinaleU = prezzoSoloDisplay + costoInstU + costoTrasfertaProvincia;
+
+               unificaPlan = {
+                 cols: colsU,
+                 rectRows: rectRowsU,
+                 squareRows: 1,
+                 rectCab: rectCabDisp,
+                 sqCab: sqCabDisp,
+                 rectUnitPrice: rectModel.prezzo,
+                 sqUnitPrice: sqModel.prezzo,
+                 prezzoSoloDisplay: prezzoSoloDisplay,
+                 costoInst: costoInstU,
+                 costoKm: costoTrasfertaProvincia,
+                 prezzoFinale: prezzoFinaleU,
+                 bifacciale: bifacciale
+               };
+               unificaDisponibile = true;
+             }
+           }
+         } catch(e){}
+       })();
+
+
       results.sort(function(a,b) {
         if(a.perfectMatch && !b.perfectMatch) return -1;
         if(!a.perfectMatch && b.perfectMatch) return 1;
@@ -1238,6 +1445,74 @@
         return (curr.prezzoTotaleFinale < prev.prezzoTotaleFinale) ? curr : prev;
       }, results[0]);
 
+       var cardMap = {};
+       function applicaUnificaP391(){
+         if(!unificaPlan) return;
+
+         
+
+         if(cardsContainer && cardsContainer.classList){ cardsContainer.classList.add('unify-mode'); }
+// evidenzia le card coinvolte
+         Object.keys(cardMap).forEach(function(k){
+           if(cardMap[k] && cardMap[k].classList) cardMap[k].classList.remove('unified');
+         });
+         if(cardMap['P3.91']) cardMap['P3.91'].classList.add('unified');
+         if(cardMap['P3.91 - 0.50x0.50']) cardMap['P3.91 - 0.50x0.50'].classList.add('unified');
+
+         // layout dedicato
+         layoutContainer.innerHTML = '';
+         var h = document.createElement('h3');
+         h.textContent = 'Layout suggerito per P3.91 Unificato';
+         layoutContainer.appendChild(h);
+         generaLayoutUnificatoP391(unificaPlan);
+
+         // messaggio + valori
+         var txt = '✅ Modalità UNIFICA attiva: ' +
+                   (unificaPlan.rectCab/ (unificaPlan.bifacciale?2:1)) + ' cabinet 0.50x1.00 + ' +
+                   (unificaPlan.sqCab/ (unificaPlan.bifacciale?2:1)) + ' cabinet 0.50x0.50.';
+         if(unificaPlan.bifacciale) txt += ' (Bifacciale: quantità e prezzo raddoppiati)';
+         txt += ' Prezzo totale unificato: <strong>' + Math.round(unificaPlan.prezzoFinale).toLocaleString('it-IT') + '€</strong>.';
+
+         alertContainer.innerHTML = '<div class="alert" style="border-left:3px solid #ef4444;">' + txt + '</div>';
+        
+
+       function annullaUnificaP391(){
+         try{
+           if(cardsContainer && cardsContainer.classList){ cardsContainer.classList.remove('unify-mode'); }
+         }catch(e){}
+         try{
+           document.querySelectorAll('.card.unified').forEach(function(c){ c.classList.remove('unified'); });
+         }catch(e){}
+         try{
+           document.querySelectorAll('.unified-value').forEach(function(el){
+             if(!el.classList.contains('is-hidden')) el.classList.add('is-hidden');
+           });
+         }catch(e){}
+         try{ alertContainer.innerHTML = ''; }catch(e){}
+         try{ aggiornaCards(); }catch(e){}
+       }
+
+ // Pulsante ANNULLA UNIFICA
+         try{
+           var btnWrap = document.createElement('div');
+           btnWrap.style.marginTop = '10px';
+           var btnA = document.createElement('button');
+           btnA.type = 'button';
+           btnA.className = 'btn-annulla-unifica';
+           btnA.textContent = 'ANNULLA UNIFICA';
+           btnA.addEventListener('click', function(ev){
+             ev.preventDefault(); ev.stopPropagation();
+             if(ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+             annullaUnificaP391();
+           }, {capture:true});
+           btnWrap.appendChild(btnA);
+           var target = alertContainer.querySelector('.alert');
+           (target || alertContainer).appendChild(btnWrap);
+         }catch(e){}
+
+       }
+
+
       results.forEach(function(model) {
         var wrapper = document.createElement('div');
         wrapper.style.display = 'flex';
@@ -1249,6 +1524,7 @@
         else if(model.rotatedMatch) card.className = 'card yellow';
         else card.className = 'card red';
         if(model.nome === bestPriceModel.nome) card.classList.add('best');
+        try{ cardMap[model.nome] = card; }catch(e){}
 
         var popup = document.createElement('div');
         popup.className = 'card-popup';
@@ -1280,12 +1556,17 @@
 
         var idSafe = model.nome.replace(/[^\w-]/g,'_');
 
+        var unificaBtnHtml = (unificaDisponibile && (model.nome === 'P3.91' || model.nome === 'P3.91 - 0.50x0.50'))
+          ? '<button class="btn-unifica" type="button">UNIFICA CABINET</button>'
+          : '';
+
         card.innerHTML += ''
           + '<div class="card-header-row">'
           + '  <div class="card-title-block">'
           + '    <div class="card-icon">' + model.icon + '</div>'
           + '    <h2>' + model.nome + '</h2>'
           + '  </div>'
+          + unificaBtnHtml
           + '</div>'
           + '<p class="tooltip">Dimensione cabinet: ' + model.cabX + ' x ' + model.cabY + ' cm'
           + '  <span class="tooltiptext">' + model.info + '</span>'
@@ -1296,6 +1577,14 @@
               + (model.bifacciale ? '<p class="bifacciale-label">Bifacciale</p>' : '')
             : '<p>Misura più vicina: ' + model.nearestBase + ' x ' + model.nearestAltezza + ' cm</p>'
           );
+
+        // Pulsante UNIFICA (solo P3.91)
+        if(unificaBtnHtml){
+          var btnU = card.querySelector('.btn-unifica');
+          if(btnU){
+            btnU.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); if(e.stopImmediatePropagation) e.stopImmediatePropagation(); applicaUnificaP391(); }, {capture:true});
+          }
+        }
 
         var btnRequest = document.createElement('button');
         btnRequest.className = 'btn-request';
